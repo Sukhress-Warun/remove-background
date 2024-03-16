@@ -34,7 +34,6 @@ const handler = async (event, context) => {
       encoding: null
     })
 
-    console.log(response.data);
     const buffer = Buffer.from(response.data, 'binary');
 
 
@@ -45,7 +44,6 @@ const handler = async (event, context) => {
       },
       body: JSON.stringify({data : buffer.toString('base64')}),
     }
-    console.log(res);
 
     return res;
 
