@@ -1,7 +1,7 @@
 require('dotenv').config();
 const apiKey = process.env.REMOVE_BG_API_KEY;
 const axios = require('axios');
-const querystring = require('querystring');
+// const querystring = require('querystring');
 
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
 const handler = async (event, context) => {
@@ -11,7 +11,7 @@ const handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
       return { statusCode: 405, body: 'Method Not Allowed' }
     }
-    const body = querystring.parse(event.body);
+    const body = JSON.parse(event.body);
 
     if (body.url === undefined || body.url === null || body.url.trim() === '') {
       throw new Error('url is required');
@@ -41,10 +41,9 @@ const handler = async (event, context) => {
     const res = {
       statusCode: 200,
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": "application/json",
       },
-      body: buffer.toString('base64'),
-      isBase64Encoded: true
+      body: JSON.stringify({data : buffer.toString('base64')}),
     }
     console.log(res);
 
